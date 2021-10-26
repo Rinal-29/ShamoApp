@@ -28,6 +28,93 @@ class EditProfilePage extends StatelessWidget {
       );
     }
 
+    Widget nameInput() {
+      return Container(
+        margin: EdgeInsets.only(top: 30),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Name',
+              style: secondaryTextStyle.copyWith(
+                fontSize: 13,
+              ),
+            ),
+            TextFormField(
+              style: primaryTextStyle,
+              decoration: InputDecoration(
+                hintText: 'Muh Afrinal Hakim',
+                hintStyle: primaryTextStyle,
+                enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(
+                    color: subtitleColor,
+                  ),
+                ),
+              ),
+            )
+          ],
+        ),
+      );
+    }
+
+    Widget usernameInput() {
+      return Container(
+        margin: EdgeInsets.only(top: 30),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Username',
+              style: secondaryTextStyle.copyWith(
+                fontSize: 13,
+              ),
+            ),
+            TextFormField(
+              style: primaryTextStyle,
+              decoration: InputDecoration(
+                hintText: '@muhafrinal',
+                hintStyle: primaryTextStyle,
+                enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(
+                    color: subtitleColor,
+                  ),
+                ),
+              ),
+            )
+          ],
+        ),
+      );
+    }
+
+    Widget emailInput() {
+      return Container(
+        margin: EdgeInsets.only(top: 30),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Email Address',
+              style: secondaryTextStyle.copyWith(
+                fontSize: 13,
+              ),
+            ),
+            TextFormField(
+              style: primaryTextStyle,
+              decoration: InputDecoration(
+                hintText: 'muhafrinal@gmail.com',
+                hintStyle: primaryTextStyle,
+                enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(
+                    color: subtitleColor,
+                  ),
+                ),
+              ),
+            )
+          ],
+        ),
+      );
+    }
+
     Widget content() {
       return Container(
         padding: EdgeInsets.symmetric(horizontal: defaultMargin),
@@ -47,7 +134,9 @@ class EditProfilePage extends StatelessWidget {
                 ),
               ),
             ),
-            Text("test"),
+            nameInput(),
+            usernameInput(),
+            emailInput(),
           ],
         ),
       );
@@ -57,6 +146,7 @@ class EditProfilePage extends StatelessWidget {
       backgroundColor: bgColor3,
       appBar: header(),
       body: content(),
+      resizeToAvoidBottomInset: false,
     );
   }
 }
