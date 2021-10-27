@@ -291,10 +291,11 @@ class SignUpPage extends StatelessWidget {
     }
 
     return Scaffold(
-      resizeToAvoidBottomInset: false,
       backgroundColor: bgColor1,
-      body: SafeArea(
+      body: SingleChildScrollView(
         child: Container(
+          width: double.infinity,
+          height: MediaQuery.of(context).size.height,
           margin: EdgeInsets.symmetric(horizontal: defaultMargin),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,

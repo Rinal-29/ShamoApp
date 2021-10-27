@@ -13,6 +13,7 @@ const Color bgColor2 = Color(0xff2B2937);
 const Color bgColor3 = Color(0xff242231);
 const Color bgColor4 = Color(0xff252836);
 const Color bgColor5 = Color(0xff2b2844);
+const Color bgColor6 = Color(0xffecedef);
 
 const Color primaryTextColor = Color(0xffF1F0F2);
 const Color secondaryTextColor = Color(0xff999999);
