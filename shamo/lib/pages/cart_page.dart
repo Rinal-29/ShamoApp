@@ -121,7 +121,9 @@ class CartPage extends StatelessWidget {
                   ),
                   padding: EdgeInsets.symmetric(horizontal: 20),
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pushNamed(context, '/checkout');
+                },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
