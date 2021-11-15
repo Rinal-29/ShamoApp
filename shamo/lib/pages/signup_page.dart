@@ -1,14 +1,77 @@
-import 'package:flutter/material.dart';
-import 'package:shamo/theme.dart';
+import 'dart:async';
 
-class SignUpPage extends StatelessWidget {
-  const SignUpPage({Key? key}) : super(key: key);
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:shamo/providers/auth_provider.dart';
+import 'package:shamo/theme.dart';
+import 'package:shamo/widgets/loading_button.dart';
+
+class SignUpPage extends StatefulWidget {
+  SignUpPage({Key? key}) : super(key: key);
+
+  @override
+  _SignUpPageState createState() => _SignUpPageState();
+}
+
+class _SignUpPageState extends State<SignUpPage> {
+  final TextEditingController nameController = TextEditingController(text: '');
+
+  final TextEditingController usernameController =
+      TextEditingController(text: '');
+
+  final TextEditingController emailController = TextEditingController(text: '');
+
+  final TextEditingController passwordController =
+      TextEditingController(text: '');
+
+  bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
+    AuthProvider authProvider = Provider.of<AuthProvider>(context);
+
+    handleSignUp() async {
+      if (await authProvider.register(
+        name: nameController.text,
+        username: usernameController.text,
+        email: emailController.text,
+        password: passwordController.text,
+      )) {
+        setState(() {
+          isLoading = true;
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              backgroundColor: Colors.greenAccent,
+              content: Text(
+                'Register Berhasil!',
+                textAlign: TextAlign.center,
+              ),
+            ),
+          );
+        });
+        Timer(
+          Duration(seconds: 3),
+          () => Navigator.pushNamed(context, '/home'),
+        );
+      } else {
+        setState(() {
+          isLoading = false;
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              backgroundColor: alertColor,
+              content: Text(
+                'Register Gagal',
+                textAlign: TextAlign.center,
+              ),
+            ),
+          );
+        });
+      }
+    }
+
     Widget header() {
       return Container(
-        margin: EdgeInsets.only(top: defaultMargin),
+        margin: EdgeInsets.only(top: 50),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -64,6 +127,7 @@ class SignUpPage extends StatelessWidget {
                     ),
                     Expanded(
                       child: TextFormField(
+                        controller: nameController,
                         style: primaryTextStyle,
                         decoration: InputDecoration.collapsed(
                           hintText: 'Your Full Name',
@@ -115,6 +179,7 @@ class SignUpPage extends StatelessWidget {
                     ),
                     Expanded(
                       child: TextFormField(
+                        controller: usernameController,
                         style: primaryTextStyle,
                         decoration: InputDecoration.collapsed(
                           hintText: 'Your Username',
@@ -166,6 +231,7 @@ class SignUpPage extends StatelessWidget {
                     ),
                     Expanded(
                       child: TextFormField(
+                        controller: emailController,
                         style: primaryTextStyle,
                         decoration: InputDecoration.collapsed(
                           hintText: 'Your Email Address',
@@ -217,6 +283,7 @@ class SignUpPage extends StatelessWidget {
                     ),
                     Expanded(
                       child: TextFormField(
+                        controller: passwordController,
                         obscureText: true,
                         style: primaryTextStyle,
                         decoration: InputDecoration.collapsed(
@@ -240,9 +307,7 @@ class SignUpPage extends StatelessWidget {
         width: double.infinity,
         margin: const EdgeInsets.only(top: 30),
         child: TextButton(
-          onPressed: () {
-            Navigator.pushNamed(context, '/home');
-          },
+          onPressed: handleSignUp,
           style: TextButton.styleFrom(
             backgroundColor: primaryColor,
             shape: RoundedRectangleBorder(
@@ -305,7 +370,7 @@ class SignUpPage extends StatelessWidget {
               usernameInput(),
               emailInput(),
               passwordInput(),
-              signUpButton(),
+              isLoading ? LoadingButton() : signUpButton(),
               const Spacer(),
               footer(),
             ],
