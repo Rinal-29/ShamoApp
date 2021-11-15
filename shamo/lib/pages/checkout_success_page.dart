@@ -94,7 +94,7 @@ class CheckoutSuccessPage extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: bgColor3,
-      appBar: AppBar(),
+      appBar: appBar(),
       body: content(),
     );
   }
