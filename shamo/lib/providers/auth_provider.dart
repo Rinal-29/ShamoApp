@@ -8,7 +8,7 @@ class AuthProvider with ChangeNotifier {
   UserModel? get user => _user;
 
   set user(UserModel? user) {
-    user = _user;
+    _user = user;
     notifyListeners();
   }
 
@@ -25,6 +25,24 @@ class AuthProvider with ChangeNotifier {
         email: email,
         password: password,
       );
+      _user = user;
+      return true;
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
+  Future<bool> login({
+    String? email,
+    String? password,
+  }) async {
+    try {
+      UserModel? user = await AuthService().login(
+        email: email,
+        password: password,
+      );
+      print(user!.name);
       _user = user;
       return true;
     } catch (e) {
