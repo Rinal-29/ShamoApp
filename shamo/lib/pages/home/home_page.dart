@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shamo/models/user_model.dart';
 import 'package:shamo/providers/auth_provider.dart';
+import 'package:shamo/providers/product_provider.dart';
 import 'package:shamo/theme.dart';
 import 'package:shamo/widgets/product_card.dart';
 import 'package:shamo/widgets/product_tile.dart';
@@ -12,6 +13,8 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     AuthProvider authProvider = Provider.of<AuthProvider>(context);
+    ProductProvider productProvider = Provider.of<ProductProvider>(context);
+
     UserModel? user = authProvider.user;
     String urlPhoto = '${user!.profilePhotoUrl}';
 
@@ -206,11 +209,13 @@ class HomePage extends StatelessWidget {
         child: SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: Row(
-            children: [
-              ProductCard(),
-              ProductCard(),
-              ProductCard(),
-            ],
+            children: productProvider.products!
+                .map(
+                  (product) => ProductCard(
+                    product: product,
+                  ),
+                )
+                .toList(),
           ),
         ),
       );
@@ -239,12 +244,13 @@ class HomePage extends StatelessWidget {
           top: 12.0,
         ),
         child: Column(
-          children: [
-            ProductTile(),
-            ProductTile(),
-            ProductTile(),
-            ProductTile(),
-          ],
+          children: productProvider.products!
+              .map(
+                (product) => ProductTile(
+                  product: product,
+                ),
+              )
+              .toList(),
         ),
       );
     }

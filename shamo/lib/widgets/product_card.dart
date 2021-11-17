@@ -1,12 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:shamo/models/product_model.dart';
+import 'package:shamo/pages/product_page.dart';
 import 'package:shamo/theme.dart';
 
 class ProductCard extends StatelessWidget {
+  final ProductModel? product;
+
+  ProductCard({this.product});
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(context, '/product');
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ProductPage(product: product),
+          ),
+        );
       },
       child: Container(
         width: 215,
@@ -24,8 +35,8 @@ class ProductCard extends StatelessWidget {
             SizedBox(
               height: defaultMargin,
             ),
-            Image.asset(
-              'assets/image_shoes.png',
+            Image.network(
+              '${product!.galleries![0].url}',
               width: 215,
               height: 150,
               fit: BoxFit.cover,
@@ -38,7 +49,7 @@ class ProductCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Hiking',
+                    '${product!.category!.name}',
                     style: secondaryTextStyle.copyWith(
                       fontSize: 12.0,
                     ),
@@ -47,18 +58,19 @@ class ProductCard extends StatelessWidget {
                     height: 6.0,
                   ),
                   Text(
-                    'COURT VISION 2.0',
+                    '${product!.name}',
                     style: blackTextStyle.copyWith(
                       fontSize: 18,
                       fontWeight: semiBold,
                     ),
                     overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
                   ),
                   const SizedBox(
                     height: 6.0,
                   ),
                   Text(
-                    '\$58,67',
+                    '\$${product!.price}',
                     style: priceTextStyle.copyWith(
                       fontSize: 14,
                       fontWeight: medium,
