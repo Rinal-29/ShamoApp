@@ -4,6 +4,7 @@ import 'package:flutter/painting.dart';
 import 'package:provider/provider.dart';
 import 'package:shamo/models/product_model.dart';
 import 'package:shamo/providers/product_provider.dart';
+import 'package:shamo/providers/wishlist_provider.dart';
 import 'package:shamo/theme.dart';
 
 class ProductPage extends StatefulWidget {
@@ -25,6 +26,8 @@ class _ProductPageState extends State<ProductPage> {
   @override
   Widget build(BuildContext context) {
     ProductProvider productProvider = Provider.of<ProductProvider>(context);
+    WishlistProvider wishlistProvider = Provider.of<WishlistProvider>(context);
+
     Future<void> showSuccessDialog() async {
       return showDialog(
         context: context,
@@ -231,15 +234,16 @@ class _ProductPageState extends State<ProductPage> {
                   ),
                   GestureDetector(
                     onTap: () {
-                      setState(() {
-                        isWhislist = !isWhislist;
-                      });
+                      wishlistProvider.setWishlist(widget.product);
+
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           backgroundColor:
-                              isWhislist ? secondaryColor : alertColor,
+                              wishlistProvider.isWhislist(widget.product)
+                                  ? secondaryColor
+                                  : alertColor,
                           content: Text(
-                            isWhislist
+                            wishlistProvider.isWhislist(widget.product)
                                 ? 'Berhasil menambah wishlist'
                                 : 'Berhasil menghapus wislisht',
                             textAlign: TextAlign.center,
@@ -248,7 +252,7 @@ class _ProductPageState extends State<ProductPage> {
                       );
                     },
                     child: Image.asset(
-                      isWhislist
+                      wishlistProvider.isWhislist(widget.product)
                           ? 'assets/success_icon.png'
                           : 'assets/button_wishist.png',
                       width: 46,
